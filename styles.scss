@@ -1,0 +1,83 @@
+@mixin phone
+  @media (max-width: 768px)
+    @content
+
+$font1: 'Open Sans', sans-serif
+$shadow: 2px 2px 5px 5px grey
+
+body
+  display: flex
+  justify-content: center
+  align-items: center
+  height: calc(100vh - 100px)
+  width: 100%
+  background-color: #ebebeb
+
+#drum-machine
+  display: flex
+  width: 100%
+  height: auto
+  justify-content: flex-start
+  align-items: center
+  box-shadow: $shadow
+  font-family: $font1
+  margin: 0 auto
+  border-radius: 15px
+  
+  @include phone
+    flex-direction: column-reverse
+    width: 75%
+    height: relative
+  
+#pads
+  display: flex
+  flex-wrap: wrap
+  background-color: #ebebeb
+  width: 33.3%
+  height: auto
+  padding: 25px
+  border-right: 2px solid red
+  border-radius: 15px 0px 0px 15px
+  
+  @include phone
+    border-right: none
+    width: 100%
+    padding: 0
+  
+.drum-pad
+  text-align: center
+  width: 15px
+  height: relative
+  padding: 0px 25px
+  background-color: #333
+  color: #ebebeb
+  margin: 5px
+  flex-grow: 1
+  font-size: 22px
+  border-radius: 50%
+  box-shadow: $shadow
+  cursor: pointer
+  
+  @include phone
+    width: 1em
+  
+.drum-pad:hover
+  box-shadow: none
+  
+#display
+  align-self: flex-start
+  width: 22.65%
+  text-align: center
+  background-color: #333
+  color: #ebebeb
+  flex-grow: 2
+  text-transform: uppercase
+  font-weight: bold
+  border-radius: 0px 15px 15px 0px
+  padding-top: 8em
+  padding-bottom: 9em
+  
+  @include phone
+    width: 100%
+    border-radius: 15px 15px 0px 0px
+    flex-grow: 0
