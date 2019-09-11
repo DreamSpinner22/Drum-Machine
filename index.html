@@ -1,0 +1,85 @@
+<div id="root"></div>
+
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.9.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js"></script>
+
+<script type="text/babel">
+const data = [
+  { id: 'snare', letter: 'Q', src: 'http://www.denhaku.com/r_box/sr16/sr16sd/pop%20room.wav'},
+  { id: 'high-hat', letter: 'W', src: 'http://cd.textfiles.com/maxsounds/WAV/EFEITOS/CH.WAV'},
+  { id: 'ride', letter: 'E', src: 'http://www.burnkit2600.com/temp/HR-16/HR-16-WAVs/29-ride%20cymbal.wav'},
+  { id: 'tom1', letter: 'A', src: 'http://www.denhaku.com/r_box/sr16/sr16tom/mdflattm.wav'},
+  { id: 'tom2', letter: 'S', src: 'http://www.denhaku.com/r_box/sr16/sr16tom/mdtomdry.wav'},
+  { id: 'crash', letter: 'D', src: 'http://mamus.eu/High_Resolution_Audio_Analysis/High_Resolution_Audio_96_32.wav'},
+  { id: 'floorTom', letter: 'Z', src: 'http://www.denhaku.com/r_box/sr16/sr16tom/loflr%20hl.wav'},
+  { id: 'bass', letter: 'X', src: 'http://dight310.byu.edu/media/audio/FreeLoops.com/3/3/Free%20Kick%20Sample%2011-909-Free-Loops.com.mp3'},
+  { id: 'cowbell', letter: 'C', src: 'http://www.burnkit2600.com/temp/HR-16/HR-16-WAVs/44-large%20cow%20bell.wav'}
+]
+
+class DrumMachine extends React.Component {
+	
+	componentDidMount() {
+		document.addEventListener('keydown', this.handleKeyDown)
+	}
+	
+	componentWillUnmount() {
+		document.removeEventListener('keydown', this.handleKeyDown)
+	}
+	
+	handleKeyDown = e => {
+		if(e.keyCode === this.props.letter.charCodeAt()) {
+			this.audio.play()
+			this.audio.currentTime = 0
+			this.props.handleDisplay(this.props.id)
+		}
+	}
+	
+	handleClick = () => {
+		this.audio.play()
+		this.audio.currentTime = 0
+		this.props.handleDisplay(this.props.id)
+	}
+	
+	render() {
+		return(
+			<div id={this.props.id} className='drum-pad' onClick={this.handleClick}>
+				<p>{this.props.letter}</p>
+				<audio ref={ref => this.audio = ref} id={this.props.letter} className='clip' src={this.props.src}></audio>
+			</div>
+		)
+	}
+}
+
+class App extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			display: 'Press Key or Click to Play Sound!'
+		}
+		
+		handleDisplay = display => this.setState({display})
+		
+		render() {
+			return (
+				<div id='drum-machine'>
+				
+					<div id='pads'>
+					{data.map(d => (
+						<DrumMachine
+							id={d.id}
+							letter={d.letter}
+							src={d.src}
+							handleDisplay={this.state.display}
+							/>
+					))}
+					</div>
+					<div id='display'>{this.state.display}</div>
+				</div>
+			)
+		}
+	}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+	
+</script>
